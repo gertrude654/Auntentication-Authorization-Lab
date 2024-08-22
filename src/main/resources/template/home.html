@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+<h2>Welcome to the Dashboard</h2>
+<p>This is the main page after a successful login.</p>
+
+<!-- Buttons for navigating to different roles -->
+<div>
+    <button onclick="location.href='/admin/dashboard'"
+            th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+        Admin Section
+    </button>
+
+    <button onclick="location.href='/manager/dashboard'"
+            th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
+        Manager Section
+    </button>
+
+    <button onclick="location.href='/employee/dashboard'"
+            th:if="${#authorization.expression('hasRole(''ROLE_EMPLOYEE'')')}">
+        Employee Section
+    </button>
+
+    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+
+</div>
+
+</body>
+</html>
