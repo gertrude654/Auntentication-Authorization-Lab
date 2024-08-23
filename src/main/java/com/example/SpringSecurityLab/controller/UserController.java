@@ -3,17 +3,17 @@ package com.example.SpringSecurityLab.controller;
 
 import com.example.SpringSecurityLab.config.CustomUserDetailsService;
 import com.example.SpringSecurityLab.jwt.AuthenticationRequest;
-import com.example.SpringSecurityLab.jwt.AuthenticationResponse;
 import com.example.SpringSecurityLab.jwt.JwtUtil;
+import com.example.SpringSecurityLab.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Map;
 
 @Controller
 public class UserController {
@@ -22,7 +22,20 @@ public class UserController {
     private JwtUtil jwtUtil;
 
     @Autowired
+    private AuthenticationService authenticationService;
+
+    @Autowired
     private CustomUserDetailsService userDetailsService;
+
+    @PostMapping("/jwt")
+    public ResponseEntity<Map<String, String>> createToken(@RequestBody AuthenticationRequest authRequest) {
+        try {
+            Map<String, String> tokenResponse = authenticationService.generateToken(authRequest);
+            return ResponseEntity.ok(tokenResponse);
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
+        }
+    }
 
     @GetMapping("/home")
     public String home() {
