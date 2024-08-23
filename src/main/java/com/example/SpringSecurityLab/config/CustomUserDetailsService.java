@@ -9,7 +9,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomUserDetailsService  implements UserDetailsService {
+public class CustomUserDetailsService {
     InMemoryUserDetailsManager users = new InMemoryUserDetailsManager();
 
     @Bean
@@ -35,14 +35,6 @@ public class CustomUserDetailsService  implements UserDetailsService {
         return users;
     }
 
-   @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetails userDetails = users.loadUserByUsername(username);
-        if (userDetails == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
-        return userDetails;
-    }
 
 //    @Bean
 //    public PasswordEncoder passwordEncoder() {

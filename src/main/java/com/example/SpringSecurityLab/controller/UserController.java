@@ -19,25 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UserController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
-
-    @PostMapping("/authenticate")
-    public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
-        );
-
-        // Generate JWT token
-        String token = jwtUtil.generateToken(authentication.getName());
-
-        return new AuthenticationResponse(token);
-    }
 
     @GetMapping("/home")
     public String home() {
