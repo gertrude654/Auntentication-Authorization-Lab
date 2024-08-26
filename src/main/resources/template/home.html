@@ -1,32 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-    <title>Dashboard</title>
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
 </head>
 <body>
-<h2>Welcome to the Dashboard</h2>
-<p>This is the main page after a successful login.</p>
-
-<!-- Buttons for navigating to different roles -->
-<div>
-    <button onclick="location.href='/admin/dashboard'"
-            th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-        Admin Section
-    </button>
-
-    <button onclick="location.href='/manager/dashboard'"
-            th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
-        Manager Section
-    </button>
-
-    <button onclick="location.href='/employee/dashboard'"
-            th:if="${#authorization.expression('hasRole(''ROLE_EMPLOYEE'')')}">
-        Employee Section
-    </button>
-
-    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
-
-</div>
-
+<h2>Welcome to Home</h2>
+<p>Welcome, <span th:text="${#authentication.principal.attributes['name']}"></span>!</p>
+<a href="/logout">Logout</a>
+<a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
 </body>
 </html>
